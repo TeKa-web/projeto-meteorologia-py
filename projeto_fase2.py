@@ -16,6 +16,8 @@ def carregar_dados():
     return dados
 
 def mes_mais_chuvoso(dados):
+
+
     chuvas_por_mes = {}
 
     for registro in dados:
@@ -43,17 +45,47 @@ def mes_mais_chuvoso(dados):
     print("Mês/ano:", mes_ano_mais_chuvoso)
     print("Precipitação total:", round(maior_chuva, 2), "mm")
 
+def media_temperatura_minima(dados):
+    print("\n--- MÉDIA DA TEMPERATURA MÍNIMA ---")
+
+    mes_escolhido = int(input("Informe um mês (1 a 12): "))
+
+    while mes_escolhido < 1 or mes_escolhido > 12:
+        print("Mês inválido!")
+        mes_escolhido = int(input("Informe um mês (1 a 12): "))
+
+    medias_minimas = {}
+
+    for ano in range(2006, 2017):
+        soma = 0
+        quantidade = 0
+
+        for registro in dados:
+            data = registro[0].split("/")
+
+            mes = int(data[1])
+            ano_registro = int(data[2])
+
+            if mes == mes_escolhido and ano_registro == ano:
+                soma += float(registro[3])
+                quantidade += 1
+
+        if quantidade > 0:
+            media = soma / quantidade
+            chave = str(mes_escolhido) + "/" + str(ano)
+            medias_minimas[chave] = media
+
+    print("\nMédias da temperatura mínima:")
+
+    for chave in medias_minimas:
+        print(chave, "-", round(medias_minimas[chave], 2), "°C")
+
+    return medias_minimas
+
 dados = carregar_dados()
 
-print("Quantidade de registros:", len(dados))
 
-primeira_data = dados[0][0]
 
-data_separada = primeira_data.split("/")
-
-dia = int(data_separada[0])
-mes = int(data_separada[1])
-ano = int(data_separada[2])
 
 mes_inicial = int(input("Informe o mês inicial (1 a 12): "))
 
@@ -138,3 +170,5 @@ for registro in dados:
                 "- Vento:", registro[7]
             )    
 mes_mais_chuvoso(dados)
+
+medias_minimas = media_temperatura_minima(dados)
