@@ -15,6 +15,33 @@ def carregar_dados():
 
     return dados
 
+def mes_mais_chuvoso(dados):
+    chuvas_por_mes = {}
+
+    for registro in dados:
+        data = registro[0].split("/")
+        mes = data[1]
+        ano = data[2]
+
+        chave = mes + "/" + ano
+        precipitacao = float(registro[1])
+
+        if chave in chuvas_por_mes:
+            chuvas_por_mes[chave] += precipitacao
+        else:
+            chuvas_por_mes[chave] = precipitacao
+
+    maior_chuva = 0
+    mes_ano_mais_chuvoso = ""
+
+    for chave in chuvas_por_mes:
+        if chuvas_por_mes[chave] > maior_chuva:
+            maior_chuva = chuvas_por_mes[chave]
+            mes_ano_mais_chuvoso = chave
+
+    print("\n--- MÊS MAIS CHUVOSO ---")
+    print("Mês/ano:", mes_ano_mais_chuvoso)
+    print("Precipitação total:", round(maior_chuva, 2), "mm")
 
 dados = carregar_dados()
 
@@ -110,3 +137,4 @@ for registro in dados:
                 "- Umidade:", registro[6],
                 "- Vento:", registro[7]
             )    
+mes_mais_chuvoso(dados)
