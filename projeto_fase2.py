@@ -19,6 +19,19 @@ def gerar_grafico(medias_minimas):
 
     plt.show()
 
+def media_geral_temperatura_minima(medias_minimas):
+    soma = 0
+    quantidade = 0
+
+    for chave in medias_minimas:
+        soma += medias_minimas[chave]
+        quantidade += 1
+
+    media_geral = soma / quantidade
+
+    print("\n--- MÉDIA GERAL DA TEMPERATURA MÍNIMA ---")
+    print("Média geral:", round(media_geral, 2), "°C")
+
 def carregar_dados():
     dados = []
 
@@ -207,3 +220,5 @@ mes_mais_chuvoso(dados)
 medias_minimas = media_temperatura_minima(dados)
 
 gerar_grafico(medias_minimas)
+
+media_geral_temperatura_minima(medias_minimas)
