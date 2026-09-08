@@ -1,3 +1,24 @@
+import matplotlib.pyplot as plt
+
+def gerar_grafico(medias_minimas):
+    anos = []
+    medias = []
+
+    for chave in medias_minimas:
+        partes = chave.split("/")
+        ano = partes[1]
+
+        anos.append(ano)
+        medias.append(medias_minimas[chave])
+
+    plt.bar(anos, medias)
+
+    plt.title("Média da Temperatura Mínima por Ano")
+    plt.xlabel("Ano")
+    plt.ylabel("Temperatura mínima média (°C)")
+
+    plt.show()
+
 def carregar_dados():
     dados = []
 
@@ -19,6 +40,8 @@ def mes_mais_chuvoso(dados):
 
 
     chuvas_por_mes = {}
+
+
 
     for registro in dados:
         data = registro[0].split("/")
@@ -85,8 +108,6 @@ def media_temperatura_minima(dados):
 dados = carregar_dados()
 
 
-
-
 mes_inicial = int(input("Informe o mês inicial (1 a 12): "))
 
 while mes_inicial < 1 or mes_inicial > 12:
@@ -138,6 +159,18 @@ while opcao < 1 or opcao > 4:
     print("Opção inválida!")
     opcao = int(input("Escolha uma opção: "))
 
+if opcao == 1:
+    print("\nData | Precipitação | Máxima | Mínima | Horas de sol | Temp. média | Umidade | Vento")
+
+elif opcao == 2:
+    print("\nData | Precipitação")
+
+elif opcao == 3:
+    print("\nData | Máxima | Mínima | Média")
+
+elif opcao == 4:
+    print("\nData | Umidade | Vento")
+
 for registro in dados:
     data = registro[0].split("/")
 
@@ -172,3 +205,5 @@ for registro in dados:
 mes_mais_chuvoso(dados)
 
 medias_minimas = media_temperatura_minima(dados)
+
+gerar_grafico(medias_minimas)
