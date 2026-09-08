@@ -1,85 +1,112 @@
-soma = 0
-mesesEsc = 0
-    
-for i in range(12):
-   
-    mes = int (input("Digite o mês do ano: " ))     
+def carregar_dados():
+    dados = []
 
-    while mes < 1 or mes > 12 :
-        print("Mês inválido! ")
-        mes = int (input("Digite o mês novamente: "))
+    arquivo = open("Anexo_Arquivo_Dados_Projeto_Logica_e_programacao_de_computadores.csv", "r")
 
-    temperatura = float (input("Digite a temperatura máxima: "))
+    cabecalho = arquivo.readline()
 
-    while temperatura < -60 or temperatura > 50:
-        print("Temperatura inválida!")
-        temperatura = float(input("Digite novamente: " ))
-    if i == 0:
-        maiorTemp = temperatura
-        mesMaior = mes
-        menorTemp = temperatura
-        mesMenor = mes
-    soma = soma + temperatura
-    if temperatura > 33 :
-        mesesEsc = mesesEsc + 1
-    if temperatura > maiorTemp:
-        maiorTemp = temperatura
-        mesMaior = mes
-    if temperatura < menorTemp :
-        menorTemp = temperatura
-        mesMenor = mes      
-if mesMaior == 1:
-    nomeMesMaior = "janeiro"
-elif mesMaior == 2:
-    nomeMesMaior = "fevereiro"
-elif mesMaior == 3:
-    nomeMesMaior = "março"
-elif mesMaior == 4:
-    nomeMesMaior = "abril"
-elif mesMaior == 5:
-    nomeMesMaior = "maio"
-elif mesMaior == 6:
-    nomeMesMaior = "junho"
-elif mesMaior == 7:
-    nomeMesMaior = "julho"
-elif mesMaior == 8:
-    nomeMesMaior = "agosto"
-elif mesMaior == 9:
-    nomeMesMaior = "setembro"
-elif mesMaior == 10:
-    nomeMesMaior = "outubro"
-elif mesMaior == 11:
-    nomeMesMaior = "novembro"
-elif mesMaior == 12:
-    nomeMesMaior = "dezembro"
+    for linha in arquivo:
+        linha = linha.strip()
+        valores = linha.split(",")
+
+        dados.append(valores)
+
+    arquivo.close()
+
+    return dados
 
 
-if mesMenor == 1:
-    nomeMesMenor = "janeiro"
-elif mesMenor == 2:
-    nomeMesMenor = "fevereiro"
-elif mesMenor == 3:
-    nomeMesMenor = "março"
-elif mesMenor == 4:
-    nomeMesMenor = "abril"
-elif mesMenor == 5:
-    nomeMesMenor = "maio"
-elif mesMenor == 6:
-    nomeMesMenor = "junho"
-elif mesMenor == 7:
-    nomeMesMenor = "julho"
-elif mesMenor == 8:
-    nomeMesMenor = "agosto"
-elif mesMenor == 9:
-    nomeMesMenor = "setembro"
-elif mesMenor == 10:
-    nomeMesMenor = "outubro"
-elif mesMenor == 11:
-    nomeMesMenor = "novembro"
-elif mesMenor == 12:
-    nomeMesMenor = "dezembro"
-media = soma / 12
-print("A temperatura media do ano é: ",media, "°C")
-print("A quantidade de meses escaldantes é: ", mesesEsc, " meses")
-print("O mês com a maior temperatura é o mês" ,nomeMesMaior, "E a temperatura foi " ,maiorTemp, "°C")
-print("O mês com a menor temperatura é o mês" ,nomeMesMenor, "E a temperatura foi " ,menorTemp, "°C")
+dados = carregar_dados()
+
+print("Quantidade de registros:", len(dados))
+
+primeira_data = dados[0][0]
+
+data_separada = primeira_data.split("/")
+
+dia = int(data_separada[0])
+mes = int(data_separada[1])
+ano = int(data_separada[2])
+
+mes_inicial = int(input("Informe o mês inicial (1 a 12): "))
+
+while mes_inicial < 1 or mes_inicial > 12:
+    print("Mês inválido!")
+    mes_inicial = int(input("Informe o mês inicial (1 a 12): "))
+
+ano_inicial = int(input("Informe o ano inicial (1961 a 2016): "))
+
+while ano_inicial < 1961 or ano_inicial > 2016:
+    print("Ano inválido!")
+    ano_inicial = int(input("Informe o ano inicial (1961 a 2016): "))
+
+mes_final = int(input("Informe o mês final (1 a 12): "))
+
+while mes_final < 1 or mes_final > 12:
+    print("Mês inválido!")
+    mes_final = int(input("Informe o mês final (1 a 12): "))
+
+ano_final = int(input("Informe o ano final (1961 a 2016): "))
+
+while ano_final < 1961 or ano_final > 2016:
+    print("Ano inválido!")
+    ano_final = int(input("Informe o ano final (1961 a 2016): "))
+
+while ano_final < ano_inicial or (ano_final == ano_inicial and mes_final < mes_inicial):
+    print("Período inválido! A data final não pode ser anterior à data inicial.")
+
+    mes_final = int(input("Informe o mês final (1 a 12): "))
+
+    while mes_final < 1 or mes_final > 12:
+        print("Mês inválido!")
+        mes_final = int(input("Informe o mês final (1 a 12): "))
+
+    ano_final = int(input("Informe o ano final (1961 a 2016): "))
+
+    while ano_final < 1961 or ano_final > 2016:
+        print("Ano inválido!")
+        ano_final = int(input("Informe o ano final (1961 a 2016): "))
+
+print("\nO que deseja visualizar?")
+print("1 - Todos os dados")
+print("2 - Precipitação")
+print("3 - Temperatura")
+print("4 - Umidade e vento")
+
+opcao = int(input("Escolha uma opção: "))
+
+while opcao < 1 or opcao > 4:
+    print("Opção inválida!")
+    opcao = int(input("Escolha uma opção: "))
+
+for registro in dados:
+    data = registro[0].split("/")
+
+    mes = int(data[1])
+    ano = int(data[2])
+
+    depois_inicio = ano > ano_inicial or (ano == ano_inicial and mes >= mes_inicial)
+    antes_fim = ano < ano_final or (ano == ano_final and mes <= mes_final)
+
+    if depois_inicio and antes_fim:
+
+        if opcao == 1:
+            print(registro)
+
+        elif opcao == 2:
+            print("Data:", registro[0], "- Precipitação:", registro[1])
+
+        elif opcao == 3:
+            print(
+                "Data:", registro[0],
+                "- Máxima:", registro[2],
+                "- Mínima:", registro[3],
+                "- Média:", registro[5]
+            )
+
+        elif opcao == 4:
+            print(
+                "Data:", registro[0],
+                "- Umidade:", registro[6],
+                "- Vento:", registro[7]
+            )    
